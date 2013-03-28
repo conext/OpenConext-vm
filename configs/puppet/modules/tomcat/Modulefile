@@ -1,0 +1,4 @@
+name 'openconext-tomcat'
+version '0.0.1'
+summary 'tomcat'
+description "deploys a tomcat tuned for Open Conext"

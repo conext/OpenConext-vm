@@ -1,0 +1,25 @@
+{
+  "types": [
+
+  ],
+  "license": "Apache License, Version 2.0",
+  "source": "UNKNOWN",
+  "checksums": {
+    "Modulefile": "134b32c9b50b9990e008e28d1beb929f",
+    "files/tomcat6.conf": "88e26c900432b35925f81b51a8e5f4c3",
+    "manifests/init.pp": "09496da542e51d38f95e398053e3cade",
+    "files/log4j.xml": "a8e48374ceb3f6fc8c5093e06a940456",
+    "files/tomcat-users.xml": "9af071d353d0fa5e94c554e95a716ab6",
+    "files/server.xml": "c0eec07d848c35a63a05eb2134e026bb",
+    "files/catalina.properties": "20333b37b47229cbacaee85742e8748d"
+  },
+  "description": "deploys a tomcat tuned for Open Conext",
+  "version": "0.0.1",
+  "project_page": "UNKNOWN",
+  "summary": "tomcat",
+  "name": "openconext-tomcat",
+  "author": "openconext",
+  "dependencies": [
+
+  ]
+}

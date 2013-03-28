@@ -1,37 +1,17 @@
 #!/bin/sh
 
 echo "Installing packages for Tomcat. This may take several minutes. (depending on available bandwidth)"
-# Install java-1.6.0-openjdk to overrule the default gcj, which is horribly broken for us.
-$YUM -y install java-1.6.0-openjdk tomcat6 mysql-connector-java
+#installation of tomcat is handled by puppet
 
-chkconfig --level 235 tomcat6 on
-
-CATALINA_HOME=/usr/share/tomcat6
-
-ln -fs $CATALINA_HOME /opt/tomcat
-
-if [ ! -d $CATALINA_HOME/conf/classpath_properties ]
+#make sure puppet is in the repositories
+if ! rpm -qi puppetlabs-release > /dev/null
 then
-	install -d $CATALINA_HOME/conf/classpath_properties
-    cp $OC_BASEDIR/configs/tomcat6/conf/classpath_properties/* $CATALINA_HOME/conf/classpath_properties/
+	rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-6.noarch.rpm
 fi
 
-if [ ! -h $CATALINA_HOME/shared/lib/mysql-connector-java.jar ]
-then
-  install -d $CATALINA_HOME/shared/lib/
-  ln -s /usr/share/java/mysql-connector-java.jar $CATALINA_HOME/shared/lib/mysql-connector-java.jar
-fi
+$YUM -y install puppet
 
-install -d $CATALINA_HOME/wars
-
-cp -f $OC_BASEDIR/configs/tomcat6/conf/catalina.properties $CATALINA_HOME/conf/catalina.properties
-cp -f $OC_BASEDIR/configs/tomcat6/conf/server.xml $CATALINA_HOME/conf/server.xml
-cp -f $OC_BASEDIR/configs/tomcat6/conf/tomcat6.conf $CATALINA_HOME/conf/tomcat6.conf
-cp -f $OC_BASEDIR/configs/tomcat6/conf/tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml
-
-install -d $CATALINA_HOME/conf/classpath_properties
-cp -f $OC_BASEDIR/configs/tomcat6/conf/classpath_properties/* $CATALINA_HOME/conf/classpath_properties/
-
+/usr/bin/puppet apply -e "include tomcat"
 
 if keytool -list -alias 'openconext cacert' -keystore /etc/pki/java/cacerts \
     -storepass changeit -noprompt > /dev/null
